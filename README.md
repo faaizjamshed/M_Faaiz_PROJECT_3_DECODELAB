@@ -58,29 +58,12 @@ python sql_insights.py
 Developed during the Data Analyst Internship Program at DecodeLabs.
 """
 
-with open("README_GIT.md", "w") as f:
-f.write(git_readme_content)
-
-print("Git portfolio README generated.")
 
 
-```text?code_stdout&code_event_index=1
-Git portfolio README generated.
 
-Aapke GitHub repository ke liye ek clean, professional aur structurally optimized README.md file generate kar di gayi hai. Yeh file aapke portfolio ko recruiters aur reviewers ke samne behtareen tareeqe se present karegi.
 
-Your Git Repository README file is ready
 
-README_GIT
- MD 
-Open
 
-Aap is file ko download karke direct apni repository ke root folder me README.md naam se commit kar sakte hain. Is file me ye specialized elements add kiye gaye hain:
 
-📌 Professional Repository Structure: Isme dynamic tree block shamil hai jo project files (eda_analysis.py, sql_insights.py, data files aur graphical outputs) ko map karta hai.
-
-📊 Combined Highlights (Milestone 2 & 3): Alag-alag files maintain karne ke bajaye GitHub standard ke mutabiq dono tasks (Python EDA aur SQL Queries) ko unified steps me integrate kiya gaya hai.
-
-💡 Structural Data Insights: Summary tables ke sath-sath project ke key business takeaways (jaise 41% cancellation leaks aur Instagram marketing conversions) properly highlights box ke sath present hain.
 
 🚀 Production Setup Instructions: Users ya team members ke liye repository clone karne, environments verify karne, dependencies install karne aur scripts run karne ki standard console commands add kiye hain.
