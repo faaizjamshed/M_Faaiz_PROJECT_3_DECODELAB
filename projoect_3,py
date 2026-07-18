@@ -1,0 +1,76 @@
+import pandas as pd
+import sqlite3
+
+# 1. Dataset ko load karein
+df = pd.read_excel('Dataset for Data Analytics.xlsx', sheet_name='Sheet1')
+
+# Date column ko SQLite ke mutabiq string format me clean karein
+df['Date'] = pd.to_datetime(df['Date']).dt.strftime('%Y-%m-%d')
+
+# 2. Virtual/In-Memory SQLite database banayein aur data dump karein
+conn = sqlite3.connect(':memory:')
+df.to_sql('orders', conn, index=False, if_exists='replace')
+
+print("SQL Environment ready! Executing queries...\n")
+
+# ----------------------------------------------------------------------------------
+# QUERY 1: Product Performance Analysis
+# Requirements Covered: SELECT, GROUP BY, ORDER BY, COUNT, SUM, AVG
+# ----------------------------------------------------------------------------------
+query_1 = """
+SELECT 
+    Product, 
+    COUNT(OrderID) AS Total_Orders,
+    SUM(Quantity) AS Total_Units_Sold,
+    AVG(UnitPrice) AS Average_Unit_Price,
+    SUM(TotalPrice) AS Total_Revenue
+FROM orders
+GROUP BY Product
+ORDER BY Total_Revenue DESC;
+"""
+
+print("=== Query 1: Revenue & Orders by Product ===")
+df_result_1 = pd.read_sql_query(query_1, conn)
+display(df_result_1)
+
+
+# ----------------------------------------------------------------------------------
+# QUERY 2: Referral Channel Performance for Active Orders
+# Requirements Covered: SELECT, WHERE, GROUP BY, ORDER BY, COUNT, SUM
+# ----------------------------------------------------------------------------------
+query_2 = """
+SELECT 
+    ReferralSource, 
+    COUNT(OrderID) AS Successful_Orders,
+    SUM(TotalPrice) AS Net_Sales
+FROM orders
+WHERE OrderStatus IN ('Delivered', 'Shipped')
+GROUP BY ReferralSource
+ORDER BY Net_Sales DESC;
+"""
+
+print("\n=== Query 2: Net Sales by Referral Source (Delivered/Shipped Only) ===")
+df_result_2 = pd.read_sql_query(query_2, conn)
+display(df_result_2)
+
+
+# ----------------------------------------------------------------------------------
+# QUERY 3: High Value Premium Transactions
+# Requirements Covered: SELECT, WHERE, ORDER BY
+# ----------------------------------------------------------------------------------
+query_3 = """
+SELECT 
+    OrderID, 
+    CustomerID, 
+    Product, 
+    Quantity, 
+    TotalPrice
+FROM orders
+WHERE TotalPrice > 2500
+ORDER BY TotalPrice DESC
+LIMIT 5;
+"""
+
+print("\n=== Query 3: Top 5 Premium Bulk Orders (> $2500) ===")
+df_result_3 = pd.read_sql_query(query_3, conn)
+display(df_result_3)
